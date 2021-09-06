@@ -101,4 +101,5 @@ for file in os.listdir("./cogs"):
     if file.endswith(".py"):
         client.load_extension(f"cogs.{file[:-3]}")
 
-client.run("ODE3NzA5Nzk3MDcwOTk1NDc3.YENdlw.ZncKf1-p5xvnRBj0qPAtbNe7LAc")
+import config
+client.run(config.token)
