@@ -55,7 +55,6 @@ class mod_warn(commands.Cog):
         cursor.execute(f"SELECT * FROM warns WHERE guild_id = {ctx.author.guild.id} AND user_id = {member.id}")
         wynik = cursor.fetchall()
         embed = discord.Embed(
-#           title = f"Warny użytkownika {member.display_name}",
             description = "",
             color = 0xffff00
         )

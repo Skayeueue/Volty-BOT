@@ -1,7 +1,9 @@
+import datetime
 import nextcord
 from nextcord import client
 from nextcord.ext import commands
 from nextcord.ui import view
+import time
 
 class tests(commands.Cog):
 
