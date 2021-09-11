@@ -2,7 +2,7 @@ import sqlite3
 import discord as discord
 from discord.ext import commands
 
-def jakniemaxp(user: nextcord.User):
+def jakniemaxp(user: discord.User):
     db = sqlite3.connect("profile.db")
     cursor = db.cursor()
     cursor.execute(f"SELECT xp FROM levels WHERE user_id = {user.id}")
@@ -16,7 +16,7 @@ def jakniemaxp(user: nextcord.User):
     db.commit()
     cursor.close()
     db.close()
-    
+
 class profile(commands.Cog):
 
     def __init__(self, client):
