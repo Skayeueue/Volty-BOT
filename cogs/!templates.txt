@@ -1,0 +1,19 @@
+COG:
+-------------------------------
+import nextcord as discord
+from nextcord.ext import commands
+
+class [nazwa](commands.Cog):
+
+    def __init__(self, client):
+        self.client = client
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("[nazwa] - ready")
+
+
+
+def setup(client):
+    client.add_cog([nazwa](client))
+-------------------------------

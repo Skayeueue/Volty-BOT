@@ -3,7 +3,6 @@ import nextcord
 from nextcord import mentions
 from nextcord.ext import commands
 import sqlite3
-from discord_slash import SlashCommand
 from nextcord.ext.commands.core import has_permissions
 from nextcord.ext.commands.errors import MissingPermissions
 import time
@@ -26,7 +25,6 @@ intents = nextcord.Intents.default()
 intents.members = True
 intents.messages = True
 client = commands.Bot(command_prefix=get_prefix)
-slash = SlashCommand(client, sync_commands=True)
 client.remove_command("help")
 
 @client.event
@@ -77,12 +75,12 @@ async def help(ctx, cat: typing.Optional[str]):
         color = 0xffff00
     )
     embed.add_field(
-        name = "\📚 Kategorie",
-        value = "`moderacyjne/mod, soon"
-    )
-    embed.add_field(
         name = "\💡 Informacje",
         value = "Właścicel/Developer: `Skayee#2115`\nArgumenty: `<arg> - potrzebne`, `[arg] - opcjonalne`\nJęzyk: Python, Strona: [Kliknij!](https://volty.xyz/)"
+    )
+    embed.add_field(
+        name = "\📚 Kategorie",
+        value = "`moderacyjne/mod, soon`"
     )
     mod = nextcord.Embed(
         color = 0x0377fc
