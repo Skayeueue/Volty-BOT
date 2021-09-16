@@ -21,6 +21,17 @@ def get_prefix(client, message):
     db.close()
     return prefix
 
+def set_guild_role(user : nextcord.User):
+    db = sqlite3.connect("verify.db")
+    cursor = db.cursor()
+    cursor.execute(f"SELECT guild_id FROM role")
+    wynik = cursor.fetchone()
+    if wynik is None:
+        cursor.execute(f"UPDATE role SET guild_id = {user.guild.id}", (user.guild.id,))
+    cursor.close()
+    db.commit()
+    db.close()
+
 intents = nextcord.Intents.default()
 intents.members = True
 intents.messages = True
@@ -34,10 +45,25 @@ async def on_ready():
     cursor.execute("CREATE TABLE IF NOT EXISTS info(guild_id INT, prefix STR)")
     cursor.close()
     db.close()
+    set_guild_role
     print("main - ready")
     await client.change_presence(activity=nextcord.Activity(type = nextcord.ActivityType.playing, name="Ładowanie..."))
     time.sleep(3)
     await client.change_presence(activity=nextcord.Activity(type = nextcord.ActivityType.playing, name=f"⚡ Jestem na {len(client.guilds)} serwerach"))
+
+#@client.event
+async def on_command_error(ctx: commands.Context, error: commands.CommandError):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.message.add_reaction("❌")
+    elif isinstance(error, commands.CommandOnCooldown):
+        await ctx.send("This command is on cooldown. Please try again after {round(error.retry_after, 1)} seconds.")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send("You are missing the required permissions to run this command!")
+    elif isinstance(error, commands.UserInputError):
+        await ctx.send("Something about your input was wrong, please check your input and try again!")
+    else:
+        await ctx.send("Oh no! Something went wrong while running the command!")
+
 
 @client.event
 async def on_message(message):
@@ -93,7 +119,6 @@ async def help(ctx, cat: typing.Optional[str]):
         await ctx.reply(embed = embed, mention_author=False)
     elif cat == "moderacyjne" or "Moderacyjne" or "mod" or "Mod":
         await ctx.reply(embed = mod, mention_author=False)
-        
 
 for file in os.listdir("./cogs"):
     if file.endswith(".py"):
